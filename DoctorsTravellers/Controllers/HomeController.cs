@@ -23,7 +23,7 @@ namespace DoctorsTravellers.Controllers
         //RESULT page
         public ActionResult Result()
         {
-            string test = "I'm #pregnant and travelling with a #child and an #elder what #medication should I take with me? we are going to #Ibiza ";
+            string test = "Im #pregnant and travelling with a #child and an #elder what #medication should I take with me? we are going to #Ibiza ";//fix ' in text
            QuestionHandelr(test);
             return View();
         }
@@ -50,7 +50,7 @@ namespace DoctorsTravellers.Controllers
                 {
                     connection.Open();
                     MySqlCommand cmd = connection.CreateCommand();
-                    cmd.CommandText = "CREATE TABLE IF NOT EXISTS " + qid + " (Id INT PRIMARY KEY AUTO_INCREMENT, respondentID VARCHAR(25),respondentType VARCHAR(25), responseText TEXT )";
+                    cmd.CommandText = "CREATE TABLE IF NOT EXISTS response" + qid + " (id INT AUTO_INCREMENT, respondentID VARCHAR(25),respondentType VARCHAR(25), responseText MEDIUMTEXT, PRIMARY KEY (id) )";
                     cmd.Prepare();
                     cmd.ExecuteNonQuery();
                 }
@@ -65,14 +65,14 @@ namespace DoctorsTravellers.Controllers
 
         string AddToQuestionTable( string question)
         {
-            string qid = GetQID(question);
+            string qid = "";
             using (MySqlConnection connection = new MySqlConnection(Config.MyConnectionString))
             {
                 try
                 {
                     connection.Open();
                     MySqlCommand cmd = connection.CreateCommand();
-                    cmd.CommandText = "INSERT INTO question_table(QID, Question) VALUES(" + qid + ", '" + question + "')";
+                    cmd.CommandText = "INSERT INTO question_table(Question) VALUES('" + question + "')";
                     cmd.Prepare();
                     cmd.ExecuteNonQuery();
                 }
@@ -82,7 +82,7 @@ namespace DoctorsTravellers.Controllers
                 }
 
             }
-            return qid;
+            return qid = GetQID(question);
         }
 
         //need to check if hashtag exits or not though
@@ -98,7 +98,7 @@ namespace DoctorsTravellers.Controllers
                     MySqlCommand cmd = connection.CreateCommand();
                     foreach (string i in hashtagList)
                     {
-                        cmd.CommandText = "INSERT INTO hash_tag_table(Tag, QID) VALUES(" + i + ", '" + qid + "')";
+                        cmd.CommandText = "INSERT INTO hash_tag_table(Tag, QID) VALUES('" + i + "', " + qid + " )";
                         cmd.ExecuteNonQuery();
                     }
                 }
@@ -118,13 +118,13 @@ namespace DoctorsTravellers.Controllers
                 {
                     connection.Open();
                     MySqlCommand cmd = connection.CreateCommand();
-                    cmd.CommandText = "SELECT QID From question_table WHERE Qusetion = '" + question + "'";
+                    cmd.CommandText = "SELECT QID From question_table WHERE Question = '" + question + "'";
                     MySqlDataReader rdr = null;
                     rdr = cmd.ExecuteReader();
 
                     while (rdr.Read())
                     {
-                        result = rdr["Question"].ToString();
+                        result = rdr["QID"].ToString();
                     }
                  }
                      catch (Exception)
