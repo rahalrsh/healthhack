@@ -147,6 +147,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Config.cs" />
+    <Compile Include="Models\HomePageServices.cs" />
+    <Compile Include="Models\MYSQLServices.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
