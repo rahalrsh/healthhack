@@ -6,25 +6,62 @@ using System.Web.Mvc;
 using MySql.Data.MySqlClient;
 using DoctorsTravellers.Models;
 using System.Data;
+using System.Reflection;
 
 namespace DoctorsTravellers.Controllers
 {
     public class HomeController : Controller
     {
-        //
-        // GET: /Home/
 
-        //HOME page
-        public ActionResult Index()
+        // This is the cintroller for the home page (DoctorsTravellers.com)
+        // looks similar to stackOverFlow.com home page
+        // for now HomePage has 4 buttons
+        // button 1 : post Question  - should post the question in the database, make a new page for the question and direct user to that page
+        //                             should not allow users to post questions if NotFiniteNumberException logged in. if not logged in direct user to log in page        
+        // button 2 : search a question - should search the answer and show the result in result page
+        // button 3 : sign up  - should take user to the sign up page to enter sign up info like username, new password, email..etc
+        // button 4 : Log In  - should take user to log in page and if login successfully take user back to the main page
+        // These can be found in Views/Home/HomePage.cshtml
+        public ActionResult HomePage()
         {
-            return RedirectToAction("Result");//This line is for testing 
+            // return HomePage.cshtml
+            return View();
+        }
+
+        public ActionResult LogIn()
+        {
+            return Content("Log In Clicked");
+        }
+
+        public ActionResult SignUp()
+        {
+            return Content("Sign Up Clicked");
+        }
+
+        // TODO: should take in the users question from HomePage.cshtml
+        // and put the question on the db.
+        // them make a page dynamically for the qurstion and answer discussion
+        // like in stackOverFlow.com
+        // In stackOverFlow when you ask a question they create a new page for that question
+        // example: question - "install gcc in home"
+        //          new page -  http://stackoverflow.com/questions/26070784/install-gcc-in-home                
+        public ActionResult Ask()
+        {
+            return Content("Ask Clicked");
+        }
+
+        // TODO: take in users search string and check the db for similar questions
+        // then return the Result() view
+        public ActionResult Search()
+        {
+            return Content("search Clicked");
         }
 
         //RESULT page
         public ActionResult Result()
         {
             string test = "Im #pregnant and travelling with a #child and an #elder what #medication should I take with me? we are going to #Ibiza ";//fix ' in text
-           QuestionHandelr(test);
+            QuestionHandelr(test);
             return View();
         }
 
