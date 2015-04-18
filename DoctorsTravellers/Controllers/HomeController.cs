@@ -17,35 +17,30 @@ namespace DoctorsTravellers.Controllers
         public ActionResult HomePage()
         {
             // return HomePage.cshtml
-            //return View();
+            return View();
 
-           return RedirectToAction("test");//For testing
+          // return RedirectToAction("test");//For testing
         }
 
-        public ActionResult LogIn()
+        public ActionResult SignIn()//ADD A VIEW AND SAY RETURN VIEW AS OPPOSED TO RETURN CONTENT
         {
             return Content("Log In Clicked");
         }
 
-        public ActionResult SignUp()
+        public ActionResult SignUp()//ADD A VIEW AND SAY RETURN VIEW AS OPPOSED TO RETURN CONTENT
         {
             return Content("Sign Up Clicked");
         }
 
-                
-        public ActionResult Ask()
-        {
-            return Content("Ask Clicked");
-        }
 
-        public ActionResult test()
+        public ActionResult test()//SIMULATES BROWZER REQUESTS BUT WITHOUT BROWZER
         {
             //return RedirectToAction("QuestionSearch", new { question = "Im #pregnant and travelling with a #child and an #elder what #medication should I take with me? we are going to #Ibiza " });//This line is for testing 
             return RedirectToAction("QuestionPost", new { question = "Im #pregnant and travelling with a #child and an #elder what #medication should I take with me? we are going to #Ibiza " });//This line is for testing 
             //return RedirectToAction("ResponsePost", new { qid = 22, response = "you will need lots of sleeping pills good luck!" });//This line is for testing 
         }
 
-        public ActionResult QuestionSearch(string question)
+        public ActionResult QuestionSearch(string question)//SEARCH QUESTION AND RETURNS QUESTION LIST TO SERVER
         {
             HomePageServices hps = new HomePageServices();
             List<Question> result = hps.QuestionSearchHandelr(question);
@@ -53,15 +48,17 @@ namespace DoctorsTravellers.Controllers
         }
 
 
-        public ActionResult QuestionPost(string question)
+        public ActionResult QuestionPost(string question)//STORES QUESTION TO THE DATA BASE AND RETURNS QID
         {
             int qid = -1;
             HomePageServices hps = new HomePageServices();
             qid = hps.QuestionPostHandelr(question);
-            return Json(new { result = qid });
+                  
+           return  Json(new { status ="Your Question Has Been Posted!", qid=qid  }, JsonRequestBehavior.AllowGet);
+       
         }
 
-        public ActionResult ResponsePost(int qid, string response)
+        public ActionResult ResponsePost(int qid, string response)//STORES RESPONSE TO THE DATA BASE AND RETURNS RID
         {
             int rid = -1;
             HomePageServices hps = new HomePageServices();

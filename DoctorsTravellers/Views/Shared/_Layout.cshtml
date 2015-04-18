@@ -6,11 +6,28 @@
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">@*ADD CSS LINKS HERE!*@
+    
 </head>
 <body>
+    <ul id="bar" class="nav nav-pills">
+        <li role="presentation"><a id="brand"class="title" href="#">Doctors&Travellers</a></li>
+        <li role="presentation"><a href="#"><img src="~/images/user.png" aria-hidden="true" /></a></li>
+        <li role="presentation"><a href="#"><img src="~/images/noticebell.png" aria-hidden="true" /><span id="missed"class="badge">3</span></a></li>
+        <li id="signin" role="presentation"><a href="~/Home/SignIn">SignIn</a></li>
+        <li id="signup" role="presentation"><a href="~/Home/SignUp">SignUp</a></li>
+    </ul>
     @RenderBody()
-
+    <footer class="footer">
+        <div >
+            <p class="text-muted">© 2015 D&T Copyright all rights reserved </p>
+        </div>
+    </footer>
     @Scripts.Render("~/bundles/jquery")
     @RenderSection("scripts", required: false)
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    @*ADD JAVASCRIPT LINKS HERE!*@
 </body>
 </html>

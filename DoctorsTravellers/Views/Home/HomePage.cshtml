@@ -2,34 +2,10 @@
     ViewBag.Title = "HomePage";
 }
 
-<h2>www.DoctorsTravellers.com</h2>
-
-@using (Html.BeginForm("LogIn","Home"))
-{
-    <button type="submit" name="LogIn" value="LogIn">Log In</button>
-    <br />
-}
-
-@using (Html.BeginForm("SignUp","Home"))
-{
-    <button type="submit" name="SignUp" value="SignUp">Sign Up</button>
-    <br />
-
-}
-
-<h2>Ask Your Question</h2>
-@using (Html.BeginForm("Ask","Home"))
-{
-    @Html.Label("Ask your Question")<br />
-    @Html.TextBox("Ask your Question")<br />
-    <button type="submit" name="Ask" value="Ask">Ask</button>
-}
-
-<h2>Search</h2>
-@using (Html.BeginForm("Search","Home"))
-{
-    @Html.Label("search")<br />
-    @Html.TextBox("search")<br />
-    
-    <button type="submit" name="search" value="search">search</button>
-}
+<div id="questionbox" class="container">
+    <div class="form-group">
+        <label for="comment">Question:</label>
+        <textarea autofocus class="form-control" rows="9"  id="comment"></textarea>
+    </div>
+    <button id="Ask" type="button" class="btn btn-success, title">Ask</button>
+</div>
