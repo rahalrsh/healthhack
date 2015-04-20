@@ -81,7 +81,8 @@ namespace DoctorsTravellers.Models
         public int AddToResponseTable(int qid, string response)
         {
             int rid = -1;
-            string command = "INSERT INTO response" + qid.ToString() + "(responseText,respondentID) VALUES('" + response + "', '" + GetId().ToString() + "')";
+            string rdate = DateTime.Now.ToString("HH:mm:ss tt");
+            string command = "INSERT INTO responses(ResponseText,UID,QID,RDate,RLikes) VALUES('" + response + "', '" + GetId().ToString() + "','" + qid + "','" + rdate + "',0)";
             SendCommand(command);
             Question qhelp = new Question();
             return rid = qhelp.GetRID(response, qid);
@@ -90,7 +91,9 @@ namespace DoctorsTravellers.Models
         public int AddToQuestionTable(string question)
         {
             int qid = -1;
-            string command = "INSERT INTO question_table(Question) VALUES('" + question + "')";
+            string qdate = DateTime.Now.ToString("yyyy-MM-dd HH:mm");;
+            int uid = GetId();
+            string command = "INSERT INTO questions(QuestionscolText,QLikes,QDate,UID) VALUES('" + question + "',0,'" + qdate + "','" + uid + "')";
             SendCommand(command);
             Question qhelp = new Question();
             return qid = qhelp.GetQID(question);

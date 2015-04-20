@@ -19,7 +19,7 @@ namespace DoctorsTravellers.Controllers
             // return HomePage.cshtml
             return View();
 
-          // return RedirectToAction("test");//For testing
+            // return RedirectToAction("test");//For testing
         }
 
         public ActionResult SignIn()//ADD A VIEW AND SAY RETURN VIEW AS OPPOSED TO RETURN CONTENT
@@ -43,8 +43,11 @@ namespace DoctorsTravellers.Controllers
         public ActionResult QuestionSearch(string question)//SEARCH QUESTION AND RETURNS QUESTION LIST TO SERVER
         {
             HomePageServices hps = new HomePageServices();
-            List<Question> result = hps.QuestionSearchHandelr(question);
-            return Json(new { result = new JavaScriptSerializer().Serialize(result) });
+            var result = hps.QuestionSearchHandelr(question);
+            var temp = new JavaScriptSerializer().Serialize(result);
+
+
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
 
@@ -53,9 +56,9 @@ namespace DoctorsTravellers.Controllers
             int qid = -1;
             HomePageServices hps = new HomePageServices();
             qid = hps.QuestionPostHandelr(question);
-                  
-           return  Json(new { status ="Your Question Has Been Posted!", qid=qid  }, JsonRequestBehavior.AllowGet);
-       
+
+            return Json(new { status = "Your Question Has Been Posted!", qid = qid }, JsonRequestBehavior.AllowGet);
+
         }
 
         public ActionResult ResponsePost(int qid, string response)//STORES RESPONSE TO THE DATA BASE AND RETURNS RID

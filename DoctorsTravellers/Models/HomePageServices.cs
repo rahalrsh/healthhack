@@ -19,6 +19,7 @@ namespace DoctorsTravellers.Models
                 List<int> qidlist = new List<int>();
                 List<string> questionlist = new List<string>();
                 List<string> tags = qhelp.GetTags(question);
+                if (tags.Count == 0) { return result; }
                 string temp = "'";
                 string qidliststring = "";
 
@@ -37,12 +38,14 @@ namespace DoctorsTravellers.Models
 
                 }///////////////////////////////////////////////////////////////////////////////////////////
 
-                questionlist = ms.LoadData("SELECT Question From question_table WHERE QID = " + qidliststring);
+                if (qidliststring != "")
+                    questionlist = ms.LoadData("SELECT QuestionscolText From questions WHERE QID = " + qidliststring);
 
                 int count = 0;
-                foreach (int j in qidlist)
+                if (questionlist.Count == 0) { return result; }
+                foreach (string j in questionlist)
                 {
-                    result.Add(new Question { qid = j, question = questionlist[count] });
+                    result.Add(new Question { question = j, qid = qidlist[count] });
                     count++;
                 }
 

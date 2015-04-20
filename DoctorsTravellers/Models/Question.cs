@@ -28,7 +28,7 @@ namespace DoctorsTravellers.Models
             int result;
             try
             {
-                result = Int32.Parse(ms.LoadData("SELECT QID From question_table WHERE Question = '" + question + "'")[0]);
+                result = Int32.Parse(ms.LoadData("SELECT QID From questions WHERE QuestionscolText = '" + question + "'")[0]);
             }
             catch (Exception) { throw; }
             return result;
@@ -42,7 +42,7 @@ namespace DoctorsTravellers.Models
             int result;
             try
             {
-                result = Int32.Parse(ms.LoadData("SELECT id From response" + qid.ToString() + " WHERE responseText = '" + response + "'")[0]);
+                result = Int32.Parse(ms.LoadData("SELECT id From responses WHERE ResponseText = '" + response + "'")[0]);
             }
             catch (Exception) { throw; }
             return result;
