@@ -2,84 +2,87 @@
 }
 
 #bar {
-    background-color: #f5f5f5;
-
+    background-color: #5f5f5f;
 }
+
 #brand {
-        padding:11px;
-      
-        padding-right:20px;
-        font-size:15px;
+    padding: 11px;
+    padding-right: 20px;
+    font-size: 20px;
 }
 
-.title, .title:hover{
+.title, .title:hover {
     background-color: #339966;
     color: white;
-    
 }
 
 
 img {
-    width: 28px;
-    height: 25px;
+    width: 32px;
+    height: 32px;
     background: none;
     background-color: none;
     outline: none;
     text-decoration: none;
-
 }
 
 #missed {
-    background-color: red;
+    background-color: #FF3300;
 }
 
 #signup, #signin {
     float: right;
     right: 4%;
-            font-size:15px;
+    font-size: 20px;
+    
 }
-
+#signup a, #signin a {
+color:white;
+    
+}
 #questionbox {
-    position :relative;
-    margin-top: 7%;
+    position: relative;
+    margin-top: 6%;
     width: 74%;
     margin-left: 13%;
-
-        font-size:20px;
+    font-size: 25px;
 }
+
+
 #question {
+    font-size: 25px;
+}
 
-    font-size:20px;
-}
-#question:focus {
-    border-color: green;
-    box-shadow: green;
-}
+#question_title {
+font-weight:400}
+
+    #question:focus {
+        border-color: green;
+        box-shadow: green;
+    }
 
 #Ask {
     float: right;
-    padding-right:3.5%;
-    padding-left:3.5%;
-    padding-bottom:0.8%;
-
+    padding-right: 3.5%;
+    padding-left: 3.5%;
+    padding-bottom: 0.8%;
+    font-size:20px;
 }
 
 
 
 
 
-#question_links{
-overflow:auto;
-max-height:300px;
-
+#question_links {
+    overflow: auto;
+    max-height: 300px;
 }
 
 .footer {
     background-color: #f5f5f5;
-    position:relative;
-        font-size:15px;
-  height:80px;
-  margin-top:15%;
-text-align:center;
-
+    position: relative;
+    font-size: 20px;
+    height: 80px;
+    margin-top: 20%;
+    text-align: center;
 }

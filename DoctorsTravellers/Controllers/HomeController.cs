@@ -16,10 +16,17 @@ namespace DoctorsTravellers.Controllers
         // GET: /Home/
         public ActionResult HomePage()
         {
-            // return HomePage.cshtml
+            
             return View();
 
-            // return RedirectToAction("test");//For testing
+             //return RedirectToAction("test");//For testing
+        }
+
+        public ActionResult QuestionPage(int qid,string hashtags)
+        {
+
+            return View();
+
         }
 
         public ActionResult SignIn()//ADD A VIEW AND SAY RETURN VIEW AS OPPOSED TO RETURN CONTENT
@@ -36,8 +43,9 @@ namespace DoctorsTravellers.Controllers
         public ActionResult test()//SIMULATES BROWZER REQUESTS BUT WITHOUT BROWZER
         {
             //return RedirectToAction("QuestionSearch", new { question = "Im #pregnant and travelling with a #child and an #elder what #medication should I take with me? we are going to #Ibiza " });//This line is for testing 
-            return RedirectToAction("QuestionPost", new { question = "Im #pregnant and travelling with a #child and an #elder what #medication should I take with me? we are going to #Ibiza " });//This line is for testing 
+            //return RedirectToAction("QuestionPost", new { question = "Im #pregnant and travelling with a #child and an #elder what #medication should I take with me? we are going to #Ibiza " });//This line is for testing 
             //return RedirectToAction("ResponsePost", new { qid = 22, response = "you will need lots of sleeping pills good luck!" });//This line is for testing 
+            return RedirectToAction("QuestionPage");//This line is for testing
         }
 
         public ActionResult QuestionSearch(string question)//SEARCH QUESTION AND RETURNS QUESTION LIST TO SERVER
@@ -45,7 +53,7 @@ namespace DoctorsTravellers.Controllers
             HomePageServices hps = new HomePageServices();
             var result = hps.QuestionSearchHandelr(question);
             var temp = new JavaScriptSerializer().Serialize(result);
-
+            
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }

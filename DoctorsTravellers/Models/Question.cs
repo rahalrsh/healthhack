@@ -9,6 +9,8 @@ namespace DoctorsTravellers.Models
     {
         public int qid;
         public string question;
+        public List<string> tags;
+        public string url;
 
         public List<string> GetTags(string question)
         {
@@ -21,6 +23,8 @@ namespace DoctorsTravellers.Models
             }
             return result;
         }
+
+
 
         public int GetQID(string question)
         {

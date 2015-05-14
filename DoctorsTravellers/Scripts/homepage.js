@@ -55,7 +55,7 @@ function QuestionSearchRequest(question) {
             
             $.each(result, function (i, item) {
 
-                $('#question_links ').append("<a href='#' class='list-group-item'>" + this.question + " (" + this.qid + ")</a>");
+                $('#question_links ').append("<a href='"+this.url+"' class='list-group-item'>" + this.question + " (" + this.qid + ")</a>");
             });
         }
         else {

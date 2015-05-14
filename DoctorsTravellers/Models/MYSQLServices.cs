@@ -71,6 +71,53 @@ namespace DoctorsTravellers.Models
             return result;
         }
 
+        public void LoadDataOfList(string sqlcommand, List<string> qidlist, List<Question> questionurls)
+        {
+
+            using (MySqlConnection connection = new MySqlConnection(Config.MyConnectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    using (MySqlCommand cmd = connection.CreateCommand())
+                    {
+                        int index = 0;
+                        foreach (var n in qidlist)
+                        {
+                            cmd.CommandText = sqlcommand + n.ToString();
+                            questionurls.Add(new Question() { tags = new List<string>(), qid = Int32.Parse(n) });
+                            using (MySqlDataReader rdr = cmd.ExecuteReader())
+                            {
+                               
+                                while (rdr.Read())
+                                {
+                                    int i = 0;
+                                    string temp = "";
+                                    while (i < rdr.VisibleFieldCount)
+                                    {
+                                        if (i != 0)
+                                            temp += "%";
+                                        temp += rdr.GetString(i);
+                                        i++;
+                                    }
+                                   questionurls[index].tags.Add(temp);
+                                }
+
+                                index++;
+                            }
+                            
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+
+            }
+
+        }
+
         public void CreateResponseTable(int qid)
         {
             string command = "CREATE TABLE IF NOT EXISTS response" + qid.ToString() + " (id INT AUTO_INCREMENT, respondentID VARCHAR(25), responseText MEDIUMTEXT, PRIMARY KEY (id) )";

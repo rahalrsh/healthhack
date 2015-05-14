@@ -13,6 +13,7 @@ namespace DoctorsTravellers.Models
         {
             MYSQLServices ms = new MYSQLServices();
             List<Question> result = new List<Question>();
+           
             try
             {
                 Question qhelp = new Question();
@@ -45,7 +46,7 @@ namespace DoctorsTravellers.Models
                 if (questionlist.Count == 0) { return result; }
                 foreach (string j in questionlist)
                 {
-                    result.Add(new Question { question = j, qid = qidlist[count] });
+                    result.Add(new Question { question = j, qid = qidlist[count], url = "home/QuestionPage/"+ qidlist[count] +  "/"+string.Join("", qhelp.GetTags(j).ToArray()).Replace('#','-') });
                     count++;
                 }
 
