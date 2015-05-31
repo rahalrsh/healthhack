@@ -8,6 +8,40 @@ namespace DoctorsTravellers.Models
 {
     public class HomePageServices
     {
+        public int RegisterInfoPostHandler(System.Web.Mvc.FormCollection collection)
+        {
+            string username = collection.Get("username");
+            string password = collection.Get("password1");
+            string email = collection.Get("email");
+            string type = collection.Get("radio-group-1");
+            string speciality = collection.Get("speciality");
+
+            int qid = -1;
+            MYSQLServices ms = new MYSQLServices();
+            try
+            {
+                qid = ms.AddToRegisterInfoTable(username, password, email, type, speciality);
+                return qid;
+            }
+            catch (Exception e) { throw; }
+            return qid;
+        }
+
+        public int CheckIfRegisteredUserHandler(System.Web.Mvc.FormCollection collection)
+        {
+            int returnId = -1;
+            string username = collection.Get("username");
+            string password = collection.Get("password");
+
+            MYSQLServices ms = new MYSQLServices();
+            try
+           {
+             returnId = ms.CheckIfRegisteredUserHandler(username, password);
+           }
+           catch (Exception e) { throw; }
+
+            return returnId;
+        }
 
         public List<Question> QuestionSearchHandelr(string question)
         {
@@ -20,33 +54,23 @@ namespace DoctorsTravellers.Models
                 List<int> qidlist = new List<int>();
                 List<string> questionlist = new List<string>();
                 List<string> tags = qhelp.GetTags(question);
-                if (tags.Count == 0) { return result; }
+                List<string> questionwords = question.Split(' ').ToList<string>();
+                //if (tags.Count == 0) { return result; }
                 string temp = "'";
                 string qidliststring = "";
 
-                foreach (string i in tags)
-                { temp += i + "','"; }
+                foreach (string i in questionwords)
+                { temp += i.Trim('#') + "','"; }
                 temp = temp.Remove(temp.Length - 2, 2);
 
-                qidlist = ms.LoadData("SELECT QID From hash_tag_table WHERE Tag IN(" + temp + ")").OrderBy(i => i.Count()).Select(x => int.Parse(x)).Distinct().ToList();
+                var test = ms.LoadData("SELECT hash_tag_table.QID, questions.QuestionscolText  From hash_tag_table  INNER JOIN questions ON questions.QID = hash_tag_table.QID WHERE hash_tag_table.Tag IN(" + temp + ")");
 
-                foreach (int k in qidlist)////////////////////////slow I will adjust///////////////////////
-                {
-
-                    qidliststring += k.ToString();
-                    if (qidlist[qidlist.Count() - 1] != k)
-                        qidliststring += " OR QID = ";
-
-                }///////////////////////////////////////////////////////////////////////////////////////////
-
-                if (qidliststring != "")
-                    questionlist = ms.LoadData("SELECT QuestionscolText From questions WHERE QID = " + qidliststring);
 
                 int count = 0;
-                if (questionlist.Count == 0) { return result; }
-                foreach (string j in questionlist)
+                if (test.Count == 0) { return result; }
+                foreach (string j in test)
                 {
-                    result.Add(new Question { question = j, qid = qidlist[count], url = "home/QuestionPage/"+ qidlist[count] +  "/"+string.Join("", qhelp.GetTags(j).ToArray()).Replace('#','-') });
+                    result.Add(new Question { question = j.Split('%')[1], qid = Int32.Parse(j.Split('%')[0]), url = "/ResponsePage/ResponsePageLoad/" + Int32.Parse(j.Split('%')[0]) + "/" + string.Join("-", qhelp.GetTags(j.Split('%')[1]).ToArray()) });
                     count++;
                 }
 
@@ -70,19 +94,7 @@ namespace DoctorsTravellers.Models
             return qid;
         }
 
-        public int ResponsePostHandelr(int qid, string response)
-        {
-            MYSQLServices ms = new MYSQLServices();
-            int rid = -1;
-            try
-            {
-                rid = ms.AddToResponseTable(qid, response);
 
-
-            }
-            catch (Exception e) { throw; }
-            return rid;
-        }
 
 
 

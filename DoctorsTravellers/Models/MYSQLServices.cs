@@ -9,6 +9,41 @@ namespace DoctorsTravellers.Models
 {
     public class MYSQLServices
     {
+        public int AddToRegisterInfoTable(string username, string password, string email, string type, string speciality)
+        {
+            int qid = -1;
+            //string qdate = DateTime.Now.ToString("yyyy-MM-dd HH:mm"); ;
+            //int uid = GetId();
+            string values = "'" + username + "','" + username + "','" + email + "','" + password + "','" + type + "'";
+            string command = "INSERT INTO register_info(name,username,email,password,type) VALUES(" + values + ")";
+            SendCommand(command);
+
+            if (type.Equals("doctor"))
+            {
+                values = "LAST_INSERT_ID(),'" + speciality + "'";
+                command = "INSERT INTO speciality(UID,speciality) VALUES(" + values + ")";
+                SendCommand(command);
+            }
+
+            return qid = 1;// qhelp.GetQID(question);
+        }
+        public int CheckIfRegisteredUserHandler(string username, string password)
+        {
+            List<String> returnStrings = new List<string>();
+            string command = "SELECT UID from register_info where username='" + username + "' and password='" + password + "'";
+            returnStrings = LoadData(command);
+
+            if (returnStrings.Count == 0)
+            {
+                return -1;
+            }
+
+            int result = Int32.Parse(returnStrings[0]);
+            {
+                return result;
+            }
+        }
+
 
         public void SendCommand(string sqlcommand) //For Rahal
         {
@@ -31,7 +66,7 @@ namespace DoctorsTravellers.Models
             }
         }
 
-        public List<string> LoadData(string sqlcommand)
+        public List<string> LoadData(string sqlcommand)// loads recorde fields are seperated by %
         {
             List<string> result = new List<string>();
             using (MySqlConnection connection = new MySqlConnection(Config.MyConnectionString))
@@ -71,52 +106,52 @@ namespace DoctorsTravellers.Models
             return result;
         }
 
-        public void LoadDataOfList(string sqlcommand, List<string> qidlist, List<Question> questionurls)
-        {
+        //public void LoadDataOfList(string sqlcommand, List<string> qidlist, List<Question> questionurls)//multiple records 
+        //{
 
-            using (MySqlConnection connection = new MySqlConnection(Config.MyConnectionString))
-            {
-                try
-                {
-                    connection.Open();
-                    using (MySqlCommand cmd = connection.CreateCommand())
-                    {
-                        int index = 0;
-                        foreach (var n in qidlist)
-                        {
-                            cmd.CommandText = sqlcommand + n.ToString();
-                            questionurls.Add(new Question() { tags = new List<string>(), qid = Int32.Parse(n) });
-                            using (MySqlDataReader rdr = cmd.ExecuteReader())
-                            {
+        //    using (MySqlConnection connection = new MySqlConnection(Config.MyConnectionString))
+        //    {
+        //        try
+        //        {
+        //            connection.Open();
+        //            using (MySqlCommand cmd = connection.CreateCommand())
+        //            {
+        //                int index = 0;
+        //                foreach (var n in qidlist)
+        //                {
+        //                    cmd.CommandText = sqlcommand + n.ToString();
+        //                    questionurls.Add(new Question() { tags = new List<string>(), qid = Int32.Parse(n) });
+        //                    using (MySqlDataReader rdr = cmd.ExecuteReader())
+        //                    {
                                
-                                while (rdr.Read())
-                                {
-                                    int i = 0;
-                                    string temp = "";
-                                    while (i < rdr.VisibleFieldCount)
-                                    {
-                                        if (i != 0)
-                                            temp += "%";
-                                        temp += rdr.GetString(i);
-                                        i++;
-                                    }
-                                   questionurls[index].tags.Add(temp);
-                                }
+        //                        while (rdr.Read())
+        //                        {
+        //                            int i = 0;
+        //                            string temp = "";
+        //                            while (i < rdr.VisibleFieldCount)
+        //                            {
+        //                                if (i != 0)
+        //                                    temp += "%";
+        //                                temp += rdr.GetString(i);
+        //                                i++;
+        //                            }
+        //                           questionurls[index].tags.Add(temp);
+        //                        }
 
-                                index++;
-                            }
+        //                        index++;
+        //                    }
                             
-                        }
-                    }
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
+        //                }
+        //            }
+        //        }
+        //        catch (Exception)
+        //        {
+        //            throw;
+        //        }
 
-            }
+        //    }
 
-        }
+        //}
 
         public void CreateResponseTable(int qid)
         {
@@ -128,7 +163,7 @@ namespace DoctorsTravellers.Models
         public int AddToResponseTable(int qid, string response)
         {
             int rid = -1;
-            string rdate = DateTime.Now.ToString("HH:mm:ss tt");
+            string rdate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             string command = "INSERT INTO responses(ResponseText,UID,QID,RDate,RLikes) VALUES('" + response + "', '" + GetId().ToString() + "','" + qid + "','" + rdate + "',0)";
             SendCommand(command);
             Question qhelp = new Question();
@@ -138,7 +173,7 @@ namespace DoctorsTravellers.Models
         public int AddToQuestionTable(string question)
         {
             int qid = -1;
-            string qdate = DateTime.Now.ToString("yyyy-MM-dd HH:mm");;
+            string qdate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             int uid = GetId();
             string command = "INSERT INTO questions(QuestionscolText,QLikes,QDate,UID) VALUES('" + question + "',0,'" + qdate + "','" + uid + "')";
             SendCommand(command);
@@ -152,7 +187,7 @@ namespace DoctorsTravellers.Models
             HomePageServices hps = new HomePageServices();
             List<string> hashtagList = new List<string>();
             Question qhelp = new Question();
-            hashtagList = qhelp.GetTags(question);
+            hashtagList = qhelp.GetTags(question).Select(x => x.Trim('#')).ToList() ;
             string hashstring = "";
             using (MySqlConnection connection = new MySqlConnection(Config.MyConnectionString))
             {
@@ -175,6 +210,8 @@ namespace DoctorsTravellers.Models
                 }
             }
         }
+
+
 
 
 

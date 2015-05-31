@@ -11,7 +11,10 @@ namespace DoctorsTravellers.Models
         public string question;
         public List<string> tags;
         public string url;
-
+        public int uid;
+        public string tagString;
+        public string date;
+        public int likes;
         public List<string> GetTags(string question)
         {
             List<string> result = new List<string>();
@@ -19,7 +22,7 @@ namespace DoctorsTravellers.Models
             foreach (string i in temp)
             {
                 if (i.Contains('#'))
-                    result.Add(i);
+                    result.Add(i.Trim('#'));
             }
             return result;
         }
@@ -46,7 +49,7 @@ namespace DoctorsTravellers.Models
             int result;
             try
             {
-                result = Int32.Parse(ms.LoadData("SELECT id From responses WHERE ResponseText = '" + response + "'")[0]);
+                result = Int32.Parse(ms.LoadData("SELECT RID From responses WHERE ResponseText = '" + response + "'")[0]);
             }
             catch (Exception) { throw; }
             return result;

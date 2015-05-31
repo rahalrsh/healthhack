@@ -5,12 +5,15 @@ using System.Web;
 
 namespace DoctorsTravellers.Models
 {
-    public class response
+    public class Response
     {
-       public  int id;
-       public int respondentID;
-       public string respondentType;
+       public  int qid;
+       public int rid;
+       public int uid;
        public string responseText;
+       public string date;
+       public int likes;
 
+   
     }
 }

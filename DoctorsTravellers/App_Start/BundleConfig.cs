@@ -9,7 +9,7 @@ namespace DoctorsTravellers
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js", "~/Scripts/homepage.js"));
+                        "~/Scripts/jquery-{version}.js", "~/Scripts/homepage.js", "~/Scripts/questionpage.js", "~/Scripts/jquery.hashtags.js", "~/Scripts/jquery.autosize.js", "~/Scripts/jquery.linky.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
                         "~/Scripts/jquery-ui-{version}.js"));
@@ -23,7 +23,7 @@ namespace DoctorsTravellers
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/modernizr-*"));
 
-            bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/questionstyle.css","~/Content/site.css", "~/Content/style.css"));
+            bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/questionstyle.css","~/Content/site.css", "~/Content/style.css", "~/Content/signin.css"));
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
                         "~/Content/themes/base/jquery.ui.core.css",

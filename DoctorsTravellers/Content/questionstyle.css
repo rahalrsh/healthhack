@@ -1,9 +1,14 @@
 ﻿body {
 }
+#center-col {
+float:left;
+    width:75%;
+   margin-left:4%;
+}
 
 #QuestionSection {
     position: relative;
-    margin-top: 6%;
+    margin-top: 5%;
     width: 74%;
     margin-left: 13%;
     font-size: 25px;
@@ -32,7 +37,7 @@
     margin-bottom: 50px;
     font-weight: 400;
 }
-.your-answer-box {   
+#your-answer-box {   
     resize: none;
     font-size: 25px;
 margin-left:79px;
@@ -41,9 +46,19 @@ margin-left:79px;
         border-color: green;
         box-shadow: green;
     }
+
+#your-answer-post
+{
+    float: right;
+    padding-right: 3.5%;
+    padding-left: 3.5%;
+    padding-bottom: 0.8%;
+    margin-right:6%;
+    font-size:20px;
+}
 #ResponseSection {
     position: relative;
-    margin-top: 4%;
+    margin-top: 8%;
     width: 74%;
     margin-left: 13%;
     font-size: 25px;
@@ -51,7 +66,7 @@ margin-left:79px;
 
 #answers {
     border-bottom: 3px solid #339966;
-    margin-bottom: 50px;
+    margin-bottom: 70px;
     font-weight: 400;
 }
 
@@ -68,8 +83,13 @@ cursor:pointer;
 
 .user {
         width: 79px;
-    height: 75px;
+    height: 87px;
 
+    padding-bottom:10px;
+    
+}
+.admin {
+    background-color:green;
 }
 
 .response {
@@ -90,6 +110,9 @@ cursor:pointer;
     margin-left: 0%;
     clear: both;
     font-size:20PX;
+      -webkit-user-select: none;  /* Chrome all / Safari all */
+  -moz-user-select: none;     /* Firefox all */
+  -ms-user-select: none;      /* IE 10+ */
 }
 .stat_icons {
 
@@ -99,4 +122,75 @@ cursor:pointer;
 
 
 .Like, .Comment, .user_link {
+    font-size:20PX;
+    cursor:pointer;
 color:#339966;}
+
+#right-side-col {
+    float:left;
+background-color:none;
+
+width:13%;
+margin-left:-4%;
+margin-top:2%;
+
+}
+#filters {
+            font-size:20px;
+        font-weight: 400;
+  margin-top: 50px;
+
+        
+}
+#filters-title {
+        font-size:26px;
+        font-weight: 400;
+            border-bottom: 3px solid grey;
+            margin-bottom:30px;
+}
+#filters .radio{
+       margin-top:30px;
+       margin-left:15px;
+
+        
+}
+#filters .radio input{
+width:16px;
+height:16px;
+margin-top:23px;
+cursor:pointer;
+        
+}
+#filters .radio label img{
+      
+
+                width: 59px;
+    height: 67px;
+}
+
+.links {
+            font-size:20px;
+        font-weight: 400;
+            margin-bottom:50px;
+
+        
+}
+.links-title {
+        font-size:26px;
+        font-weight: 400;
+            border-bottom: 3px solid grey;
+            margin-bottom:30px;
+}
+.links .link{
+       margin-top:0px;
+       margin-left:-10px;
+
+        
+}
+
+.links .link label img{
+      
+    cursor:pointer;
+                width: 239px;
+    height: 220px;
+}

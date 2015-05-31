@@ -4,15 +4,69 @@
 
 <div id="questionbox" class="container">
     <div class="form-group">
-        <label id="question_title"for="comment">Question:</label>
-        <textarea autofocus class="form-control" rows="9" id="question"></textarea>
+        <label id="question_title" for="comment">Question:</label><a id="view" href="#" >view</a>
+        <textarea autofocus class="form-control" rows="12" id="question"></textarea>
     </div>
-    <button id="Ask" type="button" class="btn btn-success, title">Ask</button>
+    <button id="Ask" type="button" class="btn , title">Ask</button>
     <br />
     <br />
     <br />
+                        <div id="question-tips"class="contianer">
 
+        <h2>Your Question:</h2> <a>ok</a>
+          
+            Thanks for contributing a question to Doctors & Travellers!    <br /><br />
+            
+
+<ul>
+  <li>Please be sure to post a medical question. Provide details !</li>
+  <li >Please be sure to use Hashtags for key words!</li>
+  <li>Example: Im going to #Ibiza and staying at the #hilton what #medication should I bring along?</li>
+</ul>
+
+    </div> 
     <div id="search_result" class="list-group">
-           <div id="question_links"></div>
+
+        <div id="question_links"></div>
     </div>
+
 </div>
+
+<div id="right-side-col">
+    <div class="links">
+        <div class="links-title">Links:</div>
+        <div class="link ">
+            <label>&nbsp;&nbsp;<img class="user" src="~/images/link-travel-agent.jpg" aria-hidden="true" />&nbsp;  </label>
+        </div>
+    </div>
+    <div class="links">
+        <div class="links-title">Search Tags:</div>
+        <div style="font-size:25px;" id="hash-tag-links">
+                      &nbsp;&nbsp;&nbsp;&nbsp;<a href='#' style='color:orange'>#Doctor&Travellers</a><br/>
+     
+        </div>
+    </div>
+    <br />
+        <div class="links">
+        <div class="links-title">Search on Twitter:</div>
+        <div style="font-size:25px;" id="twitter-links">
+           &nbsp;&nbsp;&nbsp;&nbsp;<a href='#' style='color:#0086b3'>#Doctor&Travellers</a><br/>
+     
+        </div>
+    </div>
+
+
+    @*    <div class="link">
+  <label> &nbsp;&nbsp;<img class="user" src="~/images/linkdoctor.jpg" aria-hidden="true" />&nbsp;  </label>
+</div>*@
+
+
+    @*<div class="link">
+  <label>&nbsp;&nbsp;<img class="user" src="~/images/link-doctor-group.png" aria-hidden="true" />&nbsp; </label>
+</div>*@
+
+
+
+</div>
+
+<br style="clear: both" />

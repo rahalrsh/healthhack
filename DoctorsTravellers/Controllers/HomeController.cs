@@ -14,6 +14,7 @@ namespace DoctorsTravellers.Controllers
     {
         //
         // GET: /Home/
+
         public ActionResult HomePage()
         {
             
@@ -22,22 +23,45 @@ namespace DoctorsTravellers.Controllers
              //return RedirectToAction("test");//For testing
         }
 
-        public ActionResult QuestionPage(int qid,string hashtags)
+        [HttpGet]
+        public ActionResult SignIn()
         {
-
-            return View();
-
+            return View("SignIn");
         }
 
-        public ActionResult SignIn()//ADD A VIEW AND SAY RETURN VIEW AS OPPOSED TO RETURN CONTENT
+        [HttpPost]
+        public ActionResult SignIn(FormCollection collection)
         {
-            return Content("Log In Clicked");
+            HomePageServices hps = new HomePageServices();
+            int result = hps.CheckIfRegisteredUserHandler(collection);
+
+            string username = collection.Get("username");
+            ViewBag.username = result;
+            return View("SignInResult");
         }
 
-        public ActionResult SignUp()//ADD A VIEW AND SAY RETURN VIEW AS OPPOSED TO RETURN CONTENT
+        [HttpGet]
+        public ActionResult SignUp()
         {
-            return Content("Sign Up Clicked");
+            return View("SignUp");
         }
+
+        [HttpPost]
+        public ActionResult SignUp(FormCollection collection)
+        {
+            HomePageServices hps = new HomePageServices();
+            //TODO Check for duplicate username and email
+            //TODO encript password
+            int result = hps.RegisterInfoPostHandler(collection);
+
+            //TODO if duplicate username/email - show error msg
+
+            // for now assume everything is good
+            // if everything is good save username in this session
+            Session["userName"] = collection.Get("username");
+            return View("HomePage");
+        }
+
 
 
         public ActionResult test()//SIMULATES BROWZER REQUESTS BUT WITHOUT BROWZER
@@ -58,7 +82,7 @@ namespace DoctorsTravellers.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-
+                        [Authorize]
         public ActionResult QuestionPost(string question)//STORES QUESTION TO THE DATA BASE AND RETURNS QID
         {
             int qid = -1;
@@ -69,13 +93,7 @@ namespace DoctorsTravellers.Controllers
 
         }
 
-        public ActionResult ResponsePost(int qid, string response)//STORES RESPONSE TO THE DATA BASE AND RETURNS RID
-        {
-            int rid = -1;
-            HomePageServices hps = new HomePageServices();
-            rid = hps.ResponsePostHandelr(qid, response);
-            return Json(new { response = rid, table = "response" + qid.ToString() });
-        }
+
 
 
     }
