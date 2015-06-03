@@ -7,62 +7,118 @@ using MySql.Data.MySqlClient;
 using DoctorsTravellers.Models;
 using System.Data;
 using System.Web.Script.Serialization;
+using System.Web.Routing;
 
 namespace DoctorsTravellers.Controllers
 {
     public class HomeController : Controller
     {
+
         //
         // GET: /Home/
-
+        [Authorize]
         public ActionResult HomePage()
         {
-            
+            try
+            {
+                ViewBag.username = Session["UserName"];
+                ViewBag.password = Session["Password"];
+                ViewBag.type = Session["Type"];
+                string check = ViewBag.username;
+                string check1 = ViewBag.password;
+                string check2 = ViewBag.type;
+
+            }
+            catch (Exception e)
+            {
+
+            }
+
             return View();
 
-             //return RedirectToAction("test");//For testing
+            //return RedirectToAction("test");//For testing
+        }
+
+
+
+
+
+        public ActionResult IsThereNotice(string username)
+        {
+            HomePageServices hps = new HomePageServices();
+            var result = hps.IsThereNotice(username);
+            int status = -1;
+            if (result.Count() != 0) { status = 1; }
+
+
+            return Json(new { result, status = status }, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult RemoveNotice(string username)
+        {
+            MYSQLServices mps = new MYSQLServices();
+            mps.SendCommand("DELETE FROM notifications WHERE UID=" + mps.GetId(username) + "");
+            int status = 1;
+
+
+
+            return Json(new { result = status }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
-        public ActionResult SignIn()
+        public ActionResult MyProfile()
         {
-            return View("SignIn");
+            // take user id from the session
+            int UID = 16;
+            ViewBag.UID = UID;
+            List<string> result = new List<string>();
+            HomePageServices hps = new HomePageServices();
+            result = hps.getUserInfo(UID);
+            string[] temp = result[0].Split('%');
+
+            if (result == null)
+            {
+                ViewBag.username = "Admin";
+            }
+            else
+            {
+                //List<string> result = new List<string>();
+                //string[] temp = question.Split(null);
+                ViewBag.username = temp[2];
+                ViewBag.useremail = temp[3];
+                ViewBag.usertype = temp[5];
+
+            }
+
+            // If UID is a 'doctor' get his speciality
+            if (ViewBag.usertype.Equals("doctor"))
+            {
+                String speciality = hps.getUserSpeciality(UID);
+                ViewBag.speciality = speciality;
+            }
+
+            return View();
         }
 
-        [HttpPost]
-        public ActionResult SignIn(FormCollection collection)
+        public ActionResult QuestionSearch(string question)//SEARCH QUESTION AND RETURNS QUESTION LIST TO SERVER
         {
             HomePageServices hps = new HomePageServices();
-            int result = hps.CheckIfRegisteredUserHandler(collection);
+            var result = hps.QuestionSearchHandelr(question);
+            var temp = new JavaScriptSerializer().Serialize(result);
 
-            string username = collection.Get("username");
-            ViewBag.username = result;
-            return View("SignInResult");
+
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
-
-        [HttpGet]
-        public ActionResult SignUp()
+        [Authorize]
+        public ActionResult QuestionPost(string question, string username)//STORES QUESTION TO THE DATA BASE AND RETURNS QID
         {
-            return View("SignUp");
-        }
-
-        [HttpPost]
-        public ActionResult SignUp(FormCollection collection)
-        {
+            int qid = -1;
+            List<String> doctorsUID = new List<string>();
             HomePageServices hps = new HomePageServices();
-            //TODO Check for duplicate username and email
-            //TODO encript password
-            int result = hps.RegisterInfoPostHandler(collection);
+            qid = hps.QuestionPostHandelr(question, username);
 
-            //TODO if duplicate username/email - show error msg
+            return Json(new { status = "Your Question Has Been Posted!", qid = qid }, JsonRequestBehavior.AllowGet);
 
-            // for now assume everything is good
-            // if everything is good save username in this session
-            Session["userName"] = collection.Get("username");
-            return View("HomePage");
         }
-
-
 
         public ActionResult test()//SIMULATES BROWZER REQUESTS BUT WITHOUT BROWZER
         {
@@ -71,29 +127,6 @@ namespace DoctorsTravellers.Controllers
             //return RedirectToAction("ResponsePost", new { qid = 22, response = "you will need lots of sleeping pills good luck!" });//This line is for testing 
             return RedirectToAction("QuestionPage");//This line is for testing
         }
-
-        public ActionResult QuestionSearch(string question)//SEARCH QUESTION AND RETURNS QUESTION LIST TO SERVER
-        {
-            HomePageServices hps = new HomePageServices();
-            var result = hps.QuestionSearchHandelr(question);
-            var temp = new JavaScriptSerializer().Serialize(result);
-            
-
-            return Json(result, JsonRequestBehavior.AllowGet);
-        }
-
-                        [Authorize]
-        public ActionResult QuestionPost(string question)//STORES QUESTION TO THE DATA BASE AND RETURNS QID
-        {
-            int qid = -1;
-            HomePageServices hps = new HomePageServices();
-            qid = hps.QuestionPostHandelr(question);
-
-            return Json(new { status = "Your Question Has Been Posted!", qid = qid }, JsonRequestBehavior.AllowGet);
-
-        }
-
-
 
 
     }

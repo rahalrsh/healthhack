@@ -15,6 +15,8 @@ namespace DoctorsTravellers.Models
         public string tagString;
         public string date;
         public int likes;
+        public string type;
+        public string name;
         public List<string> GetTags(string question)
         {
             List<string> result = new List<string>();

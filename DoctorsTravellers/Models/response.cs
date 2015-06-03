@@ -13,7 +13,8 @@ namespace DoctorsTravellers.Models
        public string responseText;
        public string date;
        public int likes;
-
+       public string type;
+       public string username;
    
     }
 }

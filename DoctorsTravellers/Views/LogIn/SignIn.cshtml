@@ -1,0 +1,20 @@
+﻿@{
+    ViewBag.Title = "SignIn";
+}
+
+<body>
+
+
+    <div id="SignInBox" class="container">
+        <h1 style="font-size:59px;margin-top:8%">SignIn!</h1>
+        <div class="form-group">
+            <form action='SignIn' name="SignInForm" id="signInbutton" method="POST" onsubmit="return myFunc()">
+                <h2 style="font-size:39px;margin-top:60px;">User Name</h2>
+                <input style="font-size:25px;" type="text" onclick="txtClicked();" placeholder="User Name" name="username" id="username" required/><br />
+                <h2 style="font-size:39px;">Password</h2> 
+                <input style="font-size:25px;" type="password" onclick="txtClicked();" placeholder="Password" name="password" id="password" required/><br />
+                <input style="font-size:25px; margin-top:20px;" id="SignInButton" style="width:30%;height:30%;"class="title" type="submit" style="border:none" value="sign In"/>
+            </form>
+        </div>
+    </div>
+</body>

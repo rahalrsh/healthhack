@@ -8,25 +8,6 @@ namespace DoctorsTravellers.Models
 {
     public class HomePageServices
     {
-        public int RegisterInfoPostHandler(System.Web.Mvc.FormCollection collection)
-        {
-            string username = collection.Get("username");
-            string password = collection.Get("password1");
-            string email = collection.Get("email");
-            string type = collection.Get("radio-group-1");
-            string speciality = collection.Get("speciality");
-
-            int qid = -1;
-            MYSQLServices ms = new MYSQLServices();
-            try
-            {
-                qid = ms.AddToRegisterInfoTable(username, password, email, type, speciality);
-                return qid;
-            }
-            catch (Exception e) { throw; }
-            return qid;
-        }
-
         public int CheckIfRegisteredUserHandler(System.Web.Mvc.FormCollection collection)
         {
             int returnId = -1;
@@ -35,13 +16,51 @@ namespace DoctorsTravellers.Models
 
             MYSQLServices ms = new MYSQLServices();
             try
-           {
-             returnId = ms.CheckIfRegisteredUserHandler(username, password);
-           }
-           catch (Exception e) { throw; }
+            {
+                returnId = ms.CheckIfRegisteredUserHandler(username, password);
+            }
+            catch (Exception e) { throw; }
 
             return returnId;
         }
+        public List<string> getUserInfo(int UID)
+        {
+            List<String> returnStrings = new List<string>();
+            MYSQLServices ms = new MYSQLServices();
+            try
+            {
+                returnStrings = ms.getUserInfo(UID);
+            }
+            catch (Exception e) { throw; }
+
+            return returnStrings;
+        }
+        public string getUserSpeciality(int UID)
+        {
+
+            String speciality;
+            MYSQLServices ms = new MYSQLServices();
+            try
+            {
+                speciality = ms.getUserSpeciality(UID);
+            }
+            catch (Exception e) { throw; }
+
+            return speciality;
+        }
+
+        public List<Notice> IsThereNotice(string username){
+            MYSQLServices ms = new MYSQLServices();
+           List<Notice> notices = new List<Notice>();
+           try
+           {
+               notices = ms.GetNotifications(username);
+           
+           }
+           catch(Exception e){}
+           return notices;
+        }
+ 
 
         public List<Question> QuestionSearchHandelr(string question)
         {
@@ -79,21 +98,57 @@ namespace DoctorsTravellers.Models
             return result;
         }
 
-        public int QuestionPostHandelr(string question)
+        public int QuestionPostHandelr(string question, string username)
         {
+            int qid = -1;
+                 List<String> doctorsUID = new List<string>();
+            MYSQLServices ms = new MYSQLServices();
+            if(username != null)
+            try
+            {
+                qid = ms.AddToQuestionTable(question,username);
+                ms.CreateResponseTable(qid);
+                ms.AddToHashtable(qid, question);
+                                // when we post the question we should check if there is a doctor that qualifies to answer the question
+                // and if we can find a doctor to answer that question we send a notification to that doctor
+                doctorsUID = ms.getMatchingDoctors(question);
+                if (doctorsUID == null)
+                {
+                    return qid;
+                }
+                else
+                {
+                    var questions = QuestionSearchHandelr(question);
+                    string URL = QuestionSearchHandelr(question)[questions.Count - 1].url;
+                    ms.AddTONotifications(doctorsUID, URL);
+                }
+
+                
+            }
+            catch (Exception e){
+                return qid;
+            }
+            return qid;
+        }
+
+        public int RegisterInfoPostHandler(System.Web.Mvc.FormCollection collection)
+        {
+            string username = collection.Get("username");
+            string password = collection.Get("password1");
+            string email = collection.Get("email");
+            string type = collection.Get("radio-group-1");
+            string speciality = collection.Get("speciality");
+            string location = collection.Get("location");
             int qid = -1;
             MYSQLServices ms = new MYSQLServices();
             try
             {
-                qid = ms.AddToQuestionTable(question);
-                ms.CreateResponseTable(qid);
-                ms.AddToHashtable(qid, question);
+                qid = ms.AddToRegisterInfoTable(username, password, email, type, speciality, location);
                 return qid;
             }
             catch (Exception e) { throw; }
             return qid;
         }
-
 
 
 

@@ -8,22 +8,29 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">@*ADD CSS LINKS HERE!*@
-       
+
     @Scripts.Render("~/bundles/modernizr")
-     @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/css")
 </head>
 <body>
     <ul id="bar" class="nav nav-pills">
-        <li class="bar-val" role="presentation"><button id="brand" type="button" class="btn btn-success, title">Doctors&Travellers</button></li>
-        <li class="bar-val" role="presentation"><a href="#"><img src="~/images/user.png" aria-hidden="true" /></a></li>
-        <li class="bar-val" role="presentation"><a href="#"><img src="~/images/noticebell.png" aria-hidden="true" /><span id="missed"class="badge">3</span></a></li>
-@*                <li role="presentation"><a href="#"><img src="~/images/filter2.png" aria-hidden="true" /></a></li>*@
-        <li class="bar-val" id="signin" role="presentation"><a href="~/Home/SignIn">SignIn</a></li>
-        <li  class="bar-val" id="signup" role="presentation"><a href="~/Home/SignUp">SignUp</a></li>
+        <li class="bar-val" role="presentation">
+            <button id="brand" type="button" class="btn btn-success, title">Doctors&Travellers</button></li>
+        <li id="name" class="bar-val" role="presentation"><a id="nametext" href="~/Home/MyProfile">
+            <img src="~/images/user.png" aria-hidden="true" />
+        </a></li>
+
+        <li class="bar-val" role="presentation"><a id="notice-link" href="#">
+            <img src="~/images/noticebell.png" aria-hidden="true" /><span id="missed" class="badge"></span></a></li>
+        @*    <li id="name" class="bar-val" role="presentation"><a href="#">Moataz</a></li>*@
+        @*                <li role="presentation"><a href="#"><img src="~/images/filter2.png" aria-hidden="true" /></a></li>*@
+        <li class="bar-val" id="signin" role="presentation"><a href="~/LogIn/SignIn">SignIn</a></li>
+        <li class="bar-val" id="signup" role="presentation"><a href="~/LogIn/SignUp">SignUp</a></li>
     </ul>
+    <input type="hidden" id="hdnSession" data-value="${sessionScope.UserName}" />
     @RenderBody()
     <footer class="footer">
-        <div >
+        <div>
             <p class="text-muted">© 2015 D&T Copyright all rights reserved </p>
         </div>
     </footer>
@@ -33,21 +40,54 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
     @*ADD JAVASCRIPT LINKS HERE!*@
     <script>
+        var Username = '@ViewBag.username';
+        var Password = '@ViewBag.password';
+        var Type = '@ViewBag.type';
+
+        //initial on load
+
         $('#brand').live("click", function (e) {
 
             window.location.assign("/Home")
 
         }
  );
-        $('.bar-val a').live("mouseover", function (e) {
-           
-            $(this).css("background-color", "black");
 
-            }
+        $('.bar-val a').live("mouseover", function (e) {
+
+            $(this).css("background-color", "#428d8d");
+
+        }
         );
         $('.bar-val a').live("mouseleave", function (e) {
 
-            $(this).css("background-color", "#5f5f5f");
+            $(this).css("background-color", "#4DB3B3");
+
+        }
+);
+        $('.bar-val a').live("mouseleave", function (e) {
+
+            $(this).css("background-color", "#4DB3B3");
+
+        }
+);
+        $('#notice-link').live("click", function (e) {
+
+            var args =
+ {
+
+     username: Username
+ };
+            $.getJSON("Home/RemoveNotice", args, function (data) {//ASYCHRONOUS FUNCTION THAT SENDS INFO TO THE SERVER AND GETS ARRAY BACK IN DATA
+                var result;
+                result = data;
+
+                $('#missed').html("");
+                $("#notice-link").attr("href", "#");
+
+
+
+            });
 
         }
 );
