@@ -51,7 +51,7 @@ function LoadResponseDetails(qid) {
             $('#rid-' + item.rid + " .response_stat").append(" &nbsp; 0  &nbsp; <a class='Comment' href='#'>Comment</a>");
             $('#rid-' + item.rid + " .response_stat").append("<div style='float: right'>&nbsp;&nbsp; By &nbsp; Mr. <a class='user_link' href='#'>" + item.username + "</a></div>");
             $('#rid-' + item.rid + " .response_stat").append("<div style='float: right'>Posted &nbsp; " + item.date + "</div> ");
-            $('responses').append(" <br class="+item.type+" style='clear: both' />");
+            $('#responses').append(" <br class="+item.type+" style='clear: both' />");
         });
 
     });
@@ -84,7 +84,7 @@ function ResponsePost(response) {
         result = data;
 
         if (LoadResponseDetails(QID) != -1) {
-            document.getElementById('your-answer-box').value = "Your response has been posted RID = " + result.rid;
+            document.getElementById('your-answer-box').value = "Your response has been posted!";
             LoadResponseDetails(QID)
         }
         else
@@ -110,7 +110,7 @@ function LikeUpdate(rid,likes) {
 
 var QuestionObject;
 var ResponseObject;
-var Popular = false;
+var Popular = true;
 
 $(document).ready(function () {
     LoadQuestionDetails(QID);

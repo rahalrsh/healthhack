@@ -41,9 +41,12 @@ $("textarea").focus(function () {// HANDELS ELEMENT WITH ID question
     if (forgetquestion != "") {
         document.getElementById('question').value = forgetquestion;
         forgetquestion = "";
+
     }
-    else
+    else {
         document.getElementById('question').value = "";
+        $("textarea").parent().parent().find(".highlighter").html(document.getElementById('question').value);
+    }
 
 });
 
@@ -59,6 +62,7 @@ $('#Ask').on('click', function () {// HANDELS ELEMENT WITH ID ASK
     var question = document.getElementById('question').value;
     $(this).removeClass('button-active');
     if (tagwords.length == 0) {
+        $("textarea").parent().parent().find(".highlighter").html(document.getElementById('question').value);
         document.getElementById('question').value = "Don't forget the HashTags and @ Location! Example: #sick and looking for a #doctor @Egypt";
         forgetquestion = question;}
     else
@@ -135,7 +139,7 @@ function QuestionPostRequest(question) {
         var result;
         result = data;
         if (result.qid != -1) {
-            document.getElementById('question').value = result.status + " QID = " + result.qid;
+            document.getElementById('question').value = result.status;
             $("textarea").parent().parent().find(".highlighter").html(document.getElementById('question').value);
             viewshow(result.qid);
         }
